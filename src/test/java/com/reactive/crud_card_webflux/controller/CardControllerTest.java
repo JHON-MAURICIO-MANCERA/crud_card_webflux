@@ -96,4 +96,14 @@ class CardControllerTest {
         verify(cardService).finBytype("VISA");
         verify(repository).findBytype("VISA");
     }
+
+    @Test
+    void delete() {
+        webTestClient.delete()
+                .uri("/card/1/delete")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody().isEmpty();
+    }
+
 }

@@ -29,5 +29,10 @@ public class CardController {
         return cardService.finBytype(type);
     }
 
+    @DeleteMapping("/{cod}/delete")
+        public Mono<Void> deleteById(@PathVariable("cod") String cod) {
+        return cardService.deleById(cod);
+    }
+
 
 }
