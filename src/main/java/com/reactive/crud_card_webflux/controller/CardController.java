@@ -34,5 +34,10 @@ public class CardController {
         return cardService.deleById(cod);
     }
 
+    @PutMapping("/update")
+    public Mono<Card> update(@RequestBody Mono<Card> cardMono) {
+        return cardService.insert(cardMono);
+    }
+
 
 }

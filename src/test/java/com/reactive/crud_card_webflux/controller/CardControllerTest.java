@@ -41,7 +41,7 @@ class CardControllerTest {
     @Test
     void saveCard() {
         var request = Mono.just(new Card(
-                "nueva", LocalDate.of(2020, 05, 2),"22","12"));
+                "nueva", LocalDate.of(2020, 05, 2), "22", "12"));
 
         when(repository.save(any(Card.class))).thenReturn(request);
 
@@ -58,11 +58,12 @@ class CardControllerTest {
                 .jsonPath("$.date").isEqualTo(request.block().getDate().toString())
                 .jsonPath("$.number").isEqualTo(request.block().getNumber());
     }
+
     @Test
     void getAll() {
         var list = Flux.just(
                 new Card(
-                        "nueva", LocalDate.of(2020, 05, 2),"22","12"));
+                        "nueva", LocalDate.of(2020, 05, 2), "22", "12"));
         when(repository.findAll()).thenReturn(list);
         webTestClient.get()
                 .uri("/card/allcards")
@@ -74,13 +75,14 @@ class CardControllerTest {
                 .jsonPath("$[0].date").isEqualTo(list.blockFirst().getDate().toString())
                 .jsonPath("$[0].number").isEqualTo(list.blockFirst().getNumber());
     }
+
     @Test
     void getByType2() {
         var list = Flux.just(
                 new Card("nueva"
                         , LocalDate.of(2020, 05, 2)
-                        ,"22"
-                        ,"06"));
+                        , "22"
+                        , "06"));
 
         when(repository.findBytype("VISA")).thenReturn(list);
 
@@ -106,4 +108,23 @@ class CardControllerTest {
                 .expectBody().isEmpty();
     }
 
+    @Test
+    void update() {
+        var request = Mono.just(
+                new Card("nueva"
+                        , LocalDate.of(2020, 05, 2)
+                        , "22"
+                        , "06"));
+        when(repository.save(any(Card.class))).thenReturn(request);
+        webTestClient.put()
+                .uri("/card/update")
+                .body(request, Card.class)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.cod").isEqualTo(request.block().getCod())
+                .jsonPath("$.title").isEqualTo(request.block().getTitle())
+                .jsonPath("$.date").isEqualTo(request.block().getDate().toString())
+                .jsonPath("$.number").isEqualTo(request.block().getNumber());
+    }
 }
