@@ -4,10 +4,8 @@ package com.reactive.crud_card_webflux.controller;
 import com.reactive.crud_card_webflux.entity.Card;
 import com.reactive.crud_card_webflux.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -20,6 +18,10 @@ public class CardController {
     @PostMapping("/save")
     public Mono<Card> post(@RequestBody Mono<Card> carMono)  {
             return cardService.insert(carMono);
+    }
+    @GetMapping("/allcards")
+    public Flux<Card> list() {
+        return cardService.listAll();
     }
 
 

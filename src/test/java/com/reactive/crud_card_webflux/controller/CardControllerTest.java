@@ -58,4 +58,20 @@ class CardControllerTest {
                 .jsonPath("$.date").isEqualTo(request.block().getDate().toString())
                 .jsonPath("$.number").isEqualTo(request.block().getNumber());
     }
+    @Test
+    void getAll() {
+        var list = Flux.just(
+                new Card(
+                        "nueva", LocalDate.of(2020, 05, 2),"22","12"));
+        when(repository.findAll()).thenReturn(list);
+        webTestClient.get()
+                .uri("/card/allcards")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$[0].cod").isEqualTo(list.blockFirst().getCod())
+                .jsonPath("$[0].title").isEqualTo(list.blockFirst().getTitle())
+                .jsonPath("$[0].date").isEqualTo(list.blockFirst().getDate().toString())
+                .jsonPath("$[0].number").isEqualTo(list.blockFirst().getNumber());
+    }
 }
