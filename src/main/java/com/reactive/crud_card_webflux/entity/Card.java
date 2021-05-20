@@ -1,53 +1,60 @@
 package com.reactive.crud_card_webflux.entity;
 
 
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Size;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+
 @Document
+@NoArgsConstructor
 public class Card {
 
     private String title;
 
-    private String date;
+    private LocalDate date;
 
-
+    @Id
+    @Size(min = 1,max = 4,message = "characters between (2-4)")
     private String number;
 
 
     private String type;
 
-    @Id
+
+    @Size(min = 1,max = 3,message = "characters between (2-4)")
     private String cod;
 
-    public Card() {
-    }
 
-    public Card(String title, String date, String number, String type, String cod) throws Exception {
-        this.title = title;
-        this.date = date;
-        this.number =number;
-        this.type = type;
-        this.cod = cod;
-    }
-
-    public Card(String title, String date, String number, String type)  {
+    public Card(String title, LocalDate date, String number, String cod) {
         this.title = title;
         this.date = date;
         this.number = number;
-        this.type = type;
+        this.cod = cod;
+
     }
 
-    public static String validateNumberCard(String number) throws Exception {
-        if (number.length()>7 && number.length()<3){
-             throw new Exception("no sirve");
-        }
-        return number;
+    public Card(String title, LocalDate date, String cod) {
+        this.title = title;
+        this.date = date;
+        this.cod = cod;
+
     }
- /*   public static  String validateData(String date){
 
 
-    }*/
+
+
+    public LocalDate formatDate(LocalDate date) {
+            //Formato de fecha (día/mes/año)
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+            String dateF = formatoFecha.format(date);
+            LocalDate ldataF =LocalDate.parse(dateF);
+               return ldataF;
+    }
 
     public String getTitle() {
         return title;
@@ -57,11 +64,12 @@ public class Card {
         this.title = title;
     }
 
-    public String getDate() {
+
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

@@ -1,16 +1,12 @@
-package com.reactive.crud_card.service;
+package com.reactive.crud_card_webflux.service;
 
 
-import com.reactive.crud_card.entity.Card;
-import com.reactive.crud_card.repository.CardRepository;
+import com.reactive.crud_card_webflux.entity.Card;
+import com.reactive.crud_card_webflux.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.function.BiFunction;
-
 
 @Service
 public class CardService {
@@ -31,9 +27,12 @@ public class CardService {
 
 
 
-    public Mono<Void> insert(Mono<Card> cardMono) {
+    public Mono<Card> insert(Mono<Card> cardMono) {
         return cardMono
-                .flatMap(repository::save)
-                .then();
+                .flatMap(card -> {card.setType(TypeCard.valType(card.getCod()));
+                return repository.save(card);
+
+                });
+
     }
 }
