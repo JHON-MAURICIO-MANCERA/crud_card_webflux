@@ -127,4 +127,25 @@ class CardControllerTest {
                 .jsonPath("$.date").isEqualTo(request.block().getDate().toString())
                 .jsonPath("$.number").isEqualTo(request.block().getNumber());
     }
+
+    @Test
+    void getById() {
+        var request = Mono.just(
+                new Card("nueva"
+                        , LocalDate.of(2020, 05, 2)
+                        , "22"
+                        , "06"));
+        when(repository.findById("22")).thenReturn(request);
+
+        webTestClient.get()
+                .uri("/card/number/22")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody()
+                .jsonPath("$.cod").isEqualTo(request.block().getCod())
+                .jsonPath("$.title").isEqualTo(request.block().getTitle())
+                .jsonPath("$.date").isEqualTo(request.block().getDate().toString())
+                .jsonPath("$.number").isEqualTo(request.block().getNumber());
+    }
 }

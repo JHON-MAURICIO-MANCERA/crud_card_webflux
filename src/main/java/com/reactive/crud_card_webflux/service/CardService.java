@@ -21,7 +21,8 @@ public class CardService {
 
     public Flux<Card> listAll(){return  repository.findAll();}
     public Flux<Card> finBytype(String type){return  repository.findBytype(type);}
-    public Mono<Void>  deleById(String cod){  return repository.deleteById(cod);}
+    public Mono<Void>  deleById(String number){  return repository.deleteById(number);}
+    public Mono<Card> findId(String number){return repository.findById(number);}
 
 
 
