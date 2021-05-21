@@ -32,7 +32,7 @@ public class Card {
 
     public Card(String title, LocalDate date, String number, String cod) {
         this.title = title;
-        this.date = date;
+        this.date = formatDate(date);
         this.number = number;
         this.cod = cod;
 
@@ -40,7 +40,7 @@ public class Card {
 
     public Card(String title, LocalDate date, String cod) {
         this.title = title;
-        this.date = date;
+        this.date = formatDate(date);
         this.cod = cod;
 
     }

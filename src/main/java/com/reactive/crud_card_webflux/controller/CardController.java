@@ -19,6 +19,7 @@ public class CardController {
     public Mono<Card> post(@RequestBody Mono<Card> carMono)  {
             return cardService.insert(carMono);
     }
+
     @GetMapping("/allcards")
     public Flux<Card> list() {
         return cardService.listAll();
